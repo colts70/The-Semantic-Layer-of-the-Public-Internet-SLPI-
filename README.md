@@ -128,6 +128,7 @@ safety & policy (RLHF, filters)
 text
 Copy code
 DNS → DFH → KG → RLHF → Model Output
+DFH → Vector Creation → KG Reconciliation → RLHF → Output
 4.2 Roles & Epistemic Authority
 Layer	Role	Authority Class
 DNS	Proves physical origin & control of the domain.	Highest physical authority
