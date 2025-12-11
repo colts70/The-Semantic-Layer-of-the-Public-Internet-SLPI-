@@ -1,6 +1,6 @@
-# 🌐 The Semantic Layer of the Public Internet (SLPI)  
+# 🌐 The Semantic Layer of the Public Internet (SLPI)
 ## Semantic First-Hop / Deterministic First-Hop Protocol (SFH / DFH)  
-### Version 1.0 · Ten-Anchor Unified Specification
+### Version 1.0 · Ten-Anchor Unified Specification (w/ Full Examples)
 
 > **One file.**  
 > **Ten anchors.**  
@@ -8,71 +8,74 @@
 > **Pure JSON-LD.**  
 > **Deterministic meaning + deterministic provenance.**
 
-The **Semantic Layer of the Public Internet (SLPI)** establishes a **public, universal, domain-controlled identity root** for every topic on the internet.
+The **Semantic Layer of the Public Internet (SLPI)** establishes a **machine-verifiable identity root** for every domain.
 
 - **DNS** answers: `Where is it?`  
-- **SLPI / DFH** answers: `What is it — and who says so?`
+- **DFH / SLPI** answers: `What is it — and who says so?`
 
-For the first time, AI systems, crawlers, and knowledge graphs have a **deterministic first-hop for meaning**, not a probabilistic guess.
+This gives AI systems and crawlers a **deterministic first-hop for meaning**, eliminating probabilistic guessing.
 
 ---
 
 ## 0. How DFH Grounding Actually Works  
-### (The “Missing Big Start”)
+### (🔥 The Mandatory “Big Start”)
 
-Before DFH, every AI system was forced to *guess* the meaning of a domain:
+Before DFH, AI had to guess what a domain represents:
 
-- Is this site a brand?  
-- A product line?  
-- A political topic?  
+- Is it a product?  
+- A brand?  
 - A person?  
-- A dataset?
+- A dataset?  
+- A political topic?
 
-DFH removes guessing entirely.
+**DFH ends guessing forever.**
 
-The process becomes:
-
-1. **DNS proves origin**  
-2. `/.well-known/stack` **declares the topic + provenance**  
-3. `/sitemap` **defines the subtopic topology**  
-4. **AI grounding syncs the whole identity tree deterministically**
-
-DFH turns **semantic grounding** from **probability → certainty**.
-
-This single shift is why DFH is **inevitable**.
-
----
-
-## 1. One File, Ten Anchors
-
-All SLPI / DFH semantics live in a **single JSON-LD document** at:
+### 0.1 Deterministic First-Hop Pipeline
 
 ```text
+DNS proves origin         → you control the namespace
+/.well-known/stack        → declares meaning + provenance
+/sitemap                  → declares the topic topology
+AI                        → creates a deterministic semantic graph
+Knowledge graphs (KGs)    → cross-check → coherent, stable identity
+Result:
+
+Semantic grounding becomes a lookup, not an inference.
+
+AI can say: “This is what the domain says it is — deterministically.”
+
+This is why DFH is inevitable.
+
+1. The One-File Semantic Root
+Every DFH domain publishes:
+
+text
+Copy code
 https://<domain>/.well-known/stack
-SLPI merges:
+Inside this file are:
 
-5 Meaning Anchors → what the topic is
+Five Meaning Anchors — What the thing is
 
-5 Provenance Anchors → who defines it + how it’s verified
+Five Provenance Anchors — Who says so + how we verify it
 
-All ten anchors are declared at the first-hop so AI never has to guess.
+AI loads all 10 anchors at the first hop, forming a guaranteed semantic identity.
 
-2. Ten Anchors (Unified Meaning + Provenance)
-2.1 Meaning Anchors — What the topic is
-These five anchors define the semantic identity of the domain.
+2. The Ten Anchors (with Complete Examples)
+2.1 Meaning Anchors — What the domain represents
+/type — The ontology class
+What goes here:
 
-/type — What class of thing this domain represents
-What to put here:
+The primary class of the domain
 
-Ontology / taxonomy class
+Optional secondary classes
 
-MUST be stable
+Prefer schema.org, Wikidata, or dfh: classes
 
-Prefer Schema.org, Wikidata, or your own dfh: classes
+MUST be stable → does not change often
 
 Example:
 
-jsonc
+json
 Copy code
 "type": {
   "primary": "schema:Product",
@@ -83,55 +86,53 @@ Copy code
 }
 AI interpretation:
 
-“Before anything else, this domain represents a Product.”
+“This domain’s primary identity is a Product.”
 
-/entity — Everything this domain contains, sells, defines, or instantiates
-Put here:
+/entity — The official entities the domain defines
+What goes here:
 
 SKUs
+
+Versions
 
 Models
 
 Variants
 
-Versions
-
 Sub-entities
 
 Example:
 
-jsonc
+json
 Copy code
 "entity": [
   {
     "id": "sku-16oz",
     "name": "16oz Colloidal Silver",
-    "ppm": 20
+    "ppm": 20,
+    "size": "16oz"
   },
   {
     "id": "sku-32oz",
     "name": "32oz Colloidal Silver",
-    "ppm": 20
+    "ppm": 20,
+    "size": "32oz"
   }
 ]
-AI interpretation:
-
-“These are the official entities belonging to this domain.”
-
 /url — Canonical URL relationships
-Put here:
+What goes here:
 
 Homepage
 
-Primary product pages
+Canonical product URLs
 
-Canonical alternates
+Major sections
 
 URL rules
 
 Example:
 
-jsonc
+json
 Copy code
 "url": {
   "home": "https://godsgracecolloidalsilver.com/",
@@ -140,22 +141,29 @@ Copy code
     "https://godsgracecolloidalsilver.com/products/32oz"
   ]
 }
-/sitemap — Topic topology (the “shitmap”)
-This is not a dumb SEO export. It’s the semantic expansion tree.
+/sitemap — The semantic topology of the domain
+🧠 This is the most important “missing piece” everyone gets wrong.
 
-Put here:
+This is not a crawler sitemap.
+This is the semantic expansion graph for AI grounding.
 
-Every subtopic
+What must go here:
 
-Hierarchical routing
+Every meaningful subtopic
 
-What each subtopic means
+Hierarchy of concepts
 
-Optional metadata (importance, frequency, etc.)
+path → meaning
 
-Good example:
+path → entity or path → class
 
-jsonc
+Optional metadata: importance, priority, updated, etc.
+
+MUST reflect real structure, not SEO garbage
+
+Full, correct example:
+
+json
 Copy code
 "sitemap": {
   "roots": [
@@ -165,40 +173,47 @@ Copy code
   ],
   "topics": {
     "/products": {
-      "type": "schema:ProductCollection"
+      "type": "schema:ProductCollection",
+      "description": "All colloidal silver products offered by the brand."
     },
     "/products/16oz": {
-      "entity": "sku-16oz"
+      "entity": "sku-16oz",
+      "importance": 0.9,
+      "updated": "2025-01-11T02:13:00Z",
+      "description": "16oz bottle of 20ppm colloidal silver."
     },
     "/products/32oz": {
-      "entity": "sku-32oz"
+      "entity": "sku-32oz",
+      "importance": 0.8,
+      "updated": "2025-01-11T02:13:00Z",
+      "description": "32oz bottle of 20ppm colloidal silver."
+    },
+    "/about": {
+      "type": "schema:AboutPage",
+      "description": "Brand background and mission."
+    },
+    "/faq": {
+      "type": "schema:FAQPage",
+      "description": "Frequently asked questions about the product."
     }
   }
 }
-Bad examples to avoid:
+This gives AI the entire semantic topology, not just URLs.
 
-❌ Auto-export from Yoast or random SEO plugins
+/canonical — Permanent identifiers
+What goes here:
 
-❌ URLs with no meaning labels
-
-❌ Duplicate topics with no clear identity
-
-❌ Empty nodes that point nowhere
-
-/canonical — Identifiers that never change
-Put here:
-
-Names
+Official name
 
 Aliases
 
-Permanent IDs
+Permanent ID
 
-Cross-registry references
+Stable brand ID
 
 Example:
 
-jsonc
+json
 Copy code
 "canonical": {
   "name": "God’s Grace Colloidal Silver",
@@ -208,193 +223,134 @@ Copy code
   ],
   "persistentId": "ggcs-001"
 }
-2.2 Provenance Anchors — Who defines it + proof chain
-These five anchors define ownership, influence, timing, and integrity.
-
-/authority — Who is the owner of meaning?
-Put here:
+2.2 Provenance Anchors — Who defines it + how we verify it
+/authority — Who owns the meaning
+What goes here:
 
 Legal owner
 
-Organization
+Org name
 
 Contact
-
-Role
 
 Optional public key
 
 Example:
 
-jsonc
+json
 Copy code
 "authority": {
   "owner": "God’s Grace Colloidal Silver LLC",
   "contact": "mailto:support@godsgracecolloidalsilver.com"
 }
-/source — Upstream data influences
-Put here:
+/source — Upstream references
+What to include:
 
-Datasets
+Lab reports
 
-Knowledge graphs
+Reference datasets
 
-Cross references
+External knowledge graphs
 
-Domain-specific ontologies
+Ontologies
 
 Example:
 
-jsonc
+json
 Copy code
 "source": [
-  "schema.org",
+  "https://schema.org/",
   "https://godsgracecolloidalsilver.com/lab-reports"
 ]
-/timestamp — When each meaning block was declared
-Use RFC3339 timestamps.
-
+/timestamp — When meaning was defined
 Example:
 
-jsonc
+json
 Copy code
 "timestamp": {
   "created": "2025-01-05T12:22:00Z",
   "updated": "2025-02-01T09:10:00Z"
 }
-/license — How AI may use this data
-Put here:
-
-License type
-
-License URL
-
-Any explicit usage notes
-
+/license — Usage rules
 Example:
 
-jsonc
+json
 Copy code
 "license": {
   "type": "MIT",
   "url": "https://opensource.org/licenses/MIT"
 }
-/integrity — Proof that none of this was altered
-Put here:
-
-SHA256 (or stronger) hashes
-
-Optional signatures
-
-Optional audit chains
-
+/integrity — Hash + cryptographic proof
 Example:
 
-jsonc
+json
 Copy code
 "integrity": {
   "hash": "sha256-a912ffe3b7e...",
   "signedBy": "authority-owner-key"
 }
-3. Directions for Building the Sitemap
-(The Previously Missing Part)
-DFH relies on the sitemap as the semantic expansion tree.
+3. How to Build a DFH-Compliant Sitemap
+(🔥 Required for Real Grounding)
+A proper DFH sitemap:
 
-For DFH, a sitemap:
+✔ Describes meaning, not just URLs
 
-Is not just a URL list
+✔ Uses stable paths
 
-Is not just for crawlers
+✔ Links paths to entity or type
 
-Is the hierarchical meaning graph for the domain
+✔ Mirrors your actual domain
 
-3.1 Rules for a Correct DFH Sitemap
-A DFH-compliant sitemap:
+✔ Avoids autogenerated garbage
 
-✔ MUST describe meaning, not just URLs
+Minimum required per-topic:
 
-✔ MUST reference /type or /entity where possible
-
-✔ MUST reflect your actual content hierarchy
-
-✔ MUST use stable paths
-
-✔ MUST avoid auto-generated SEO trash
-
-3.2 Recommended Sitemap Fields
-Recommended shape:
-
-jsonc
+json
 Copy code
 {
-  "path": "/products/16oz",
+  "entity": "sku-16oz"
+}
+Recommended:
+
+json
+Copy code
+{
   "entity": "sku-16oz",
   "importance": 0.9,
-  "updated": "2025-01-11T02:13:00Z"
+  "updated": "2025-01-11T02:13:00Z",
+  "description": "16oz bottle of 20ppm colloidal silver."
 }
-Minimum required fields:
-
-path
-
-type OR entity
-
-Optional helpful fields:
-
-importance
-
-priority
-
-slug
-
-description
-
-variants
-
 4. How Grounding Flows Through the Sitemap
-(DFH First-Hop Explained)
-This is the part most systems miss — now written explicitly.
+With DFH:
 
-4.1 Grounding Pipeline
-DNS confirms domain → you control the namespace
+AI reads DNS → confirms authority
 
-/.well-known/stack loads → meaning + provenance anchors
+AI loads /.well-known/stack → meaning + provenance
 
-/sitemap loads → subtopic topology
+AI reads /sitemap → semantic hierarchy
 
-AI builds a deterministic semantic graph → zero ambiguity
+AI builds deterministic graph
 
-Knowledge Graph cross-checks → coherence with global truth
+Knowledge graphs cross-check → confirm consistency
 
-Model outputs → safe, deterministic interpretation
+Model outputs → near-zero ambiguity at the root
 
-4.2 Without DFH
-AI guesses
+Without DFH:
 
-Embeds
+Guessing
 
-Searches
+Embeddings
 
-Collides with conflicting signals
+Conflicts
 
-Hallucinates
+Hallucinations
 
-4.3 With DFH
-AI looks up
+DFH replaces probabilistic interpretation with a deterministic lookup.
 
-Loads
-
-Resolves
-
-Grounds
-
-Outputs
-
-Meaning becomes a lookup, not an inference.
-That is the entire revolution.
-
-5. Full Example: /.well-known/stack (Ten-Anchor JSON-LD)
-Below is a complete example for a product-centric domain like
-https://godsgracecolloidalsilver.com:
+5. Complete Example & What This File Is
+5.1 Full Ten-Anchor JSON-LD Document
+Fully valid, GitHub-ready, protocol-grade example for:
+https://godsgracecolloidalsilver.com/.well-known/stack
 
 json
 Copy code
@@ -404,6 +360,7 @@ Copy code
     "dfh": "https://sfh.dev/ns#"
   },
   "@id": "https://godsgracecolloidalsilver.com/.well-known/stack",
+
   "type": {
     "primary": "schema:Product",
     "secondary": [
@@ -411,14 +368,13 @@ Copy code
       "dfh:ColloidalSilver"
     ]
   },
+
   "canonical": {
     "name": "God’s Grace Colloidal Silver",
-    "aliases": [
-      "GGCS",
-      "GodsGraceSilver"
-    ],
+    "aliases": ["GGCS", "GodsGraceSilver"],
     "persistentId": "ggcs-001"
   },
+
   "url": {
     "home": "https://godsgracecolloidalsilver.com/",
     "canonicalProducts": [
@@ -426,91 +382,85 @@ Copy code
       "https://godsgracecolloidalsilver.com/products/32oz"
     ]
   },
+
   "entity": [
     {
       "id": "sku-16oz",
       "name": "16oz Colloidal Silver",
-      "ppm": 20
+      "ppm": 20,
+      "size": "16oz"
     },
     {
       "id": "sku-32oz",
       "name": "32oz Colloidal Silver",
-      "ppm": 20
+      "ppm": 20,
+      "size": "32oz"
     }
   ],
+
   "sitemap": {
-    "roots": [
-      "/products",
-      "/about",
-      "/faq"
-    ],
+    "roots": ["/products", "/about", "/faq"],
     "topics": {
       "/products": {
-        "type": "schema:ProductCollection"
+        "type": "schema:ProductCollection",
+        "description": "All colloidal silver products offered by the brand."
       },
       "/products/16oz": {
         "entity": "sku-16oz",
         "importance": 0.9,
-        "updated": "2025-01-11T02:13:00Z"
+        "updated": "2025-01-11T02:13:00Z",
+        "description": "16oz bottle of 20ppm colloidal silver."
       },
       "/products/32oz": {
         "entity": "sku-32oz",
         "importance": 0.8,
-        "updated": "2025-01-11T02:13:00Z"
+        "updated": "2025-01-11T02:13:00Z",
+        "description": "32oz bottle of 20ppm colloidal silver."
       },
       "/about": {
-        "type": "schema:AboutPage"
+        "type": "schema:AboutPage",
+        "description": "Brand background and mission."
       },
       "/faq": {
-        "type": "schema:FAQPage"
+        "type": "schema:FAQPage",
+        "description": "Frequently asked questions about the product."
       }
     }
   },
+
   "authority": {
     "owner": "God’s Grace Colloidal Silver LLC",
     "contact": "mailto:support@godsgracecolloidalsilver.com"
   },
+
   "source": [
     "https://schema.org/",
     "https://godsgracecolloidalsilver.com/lab-reports"
   ],
+
   "timestamp": {
     "created": "2025-01-05T12:22:00Z",
     "updated": "2025-02-01T09:10:00Z"
   },
+
   "license": {
     "type": "MIT",
     "url": "https://opensource.org/licenses/MIT"
   },
+
   "integrity": {
     "hash": "sha256-a912ffe3b7e...",
     "signedBy": "authority-owner-key"
   }
 }
-This is a single file that gives any AI system:
+5.2 What This File Is
+/.well-known/stack is the public semantic root of a domain:
 
-The class of thing the domain represents (/type)
+One JSON-LD file
 
-The official entities (/entity)
+Ten anchors (5 meaning + 5 provenance)
 
-The canonical URLs (/url)
+Zero ambiguity at the first hop
 
-The topic topology (/sitemap)
-
-The stable identifiers (/canonical)
-
-The owner of meaning (/authority)
-
-The upstream influences (/source)
-
-The temporal trace (/timestamp)
-
-The usage terms (/license)
-
-The integrity proof (/integrity)
-
-And it does it deterministically, at the first hop.
-
-6. What This File Is, in One Sentence
-/.well-known/stack is the public semantic root of a domain —
-one JSON-LD file, ten anchors, zero ambiguity.
+If DNS is “Where is it?”,
+then DFH / SLPI at /.well-known/stack is “What is it — and who says so?”
