@@ -2,365 +2,515 @@
 ## Semantic First-Hop / Deterministic First-Hop Protocol (SFH / DFH)  
 ### Version 1.0 · Ten-Anchor Unified Specification
 
-> **One file.  
-> Ten anchors.  
-> Zero dependencies.  
-> Pure JSON-LD.  
-> Deterministic meaning + deterministic provenance.**
+> **One file.**  
+> **Ten anchors.**  
+> **Zero dependencies.**  
+> **Pure JSON-LD.**  
+> **Deterministic meaning + deterministic provenance.**
 
-The **Semantic Layer of the Public Internet (SLPI)** defines the **missing semantic substrate of the web**:  
-a **universal, deterministic, machine-native starting point for meaning**.
+The **Semantic Layer of the Public Internet (SLPI)** establishes a **public, universal, domain-controlled identity root** for every topic on the internet.
 
 - **DNS** answers: `Where is it?`  
-- **SLPI / SFH / DFH** answers: `What is it — and who says so?`
+- **SLPI / DFH** answers: `What is it — and who says so?`
 
-The result is the **first deterministic identity + provenance root** available to:
-
-> AI systems · search engines · crawlers · validators · knowledge graphs
+For the first time, AI systems, crawlers, and knowledge graphs have a **deterministic first-hop for meaning**, not a probabilistic guess.
 
 ---
 
-## Table of Contents
+## 0. How DFH Grounding Actually Works  
+### (The “Missing Big Start”)
 
-1. [Overview — The Public Semantic Layer](#0-overview--the-public-semantic-layer)  
-2. [Core Architecture](#1-core-architecture)  
-   - [Deterministic Entry Behavior](#11-deterministic-entry-behavior)  
-3. [Ten Anchors (Unified Meaning + Provenance)](#2-ten-anchors-unified-meaning--provenance)  
-   - [Meaning Anchors (What the topic is)](#21-meaning-anchors-what-the-topic-is)  
-   - [Provenance Anchors (Who defines it + proof chain)](#22-provenance-anchors-who-defines-it--proof-chain)  
-4. [The DFH Descriptor (The File That Defines Everything)](#3-the-dfh-descriptor-the-file-that-defines-everything)  
-   - [Minimal Descriptor (10 anchors)](#31-minimal-descriptor-with-all-10-anchors)  
-5. [DFH → KG → RLHF Arbitration Model](#4-dfh--kg--rlhf-arbitration-model)  
-6. [AI Grounding & SEO Impact](#5-ai-grounding--seo-impact)  
-7. [Implementation Checklist](#6-implementation-checklist)  
-8. [High-Level Architecture Tree](#7-high-level-architecture-tree)  
-9. [Mirrors](#8-mirrors)  
-10. [Simple Explanation (Human Version)](#9-simple-explanation-human-version)  
-11. [One-Sentence Definition](#10-one-sentence-definition)  
+Before DFH, every AI system was forced to *guess* the meaning of a domain:
+
+- Is this site a brand?  
+- A product line?  
+- A political topic?  
+- A person?  
+- A dataset?
+
+DFH removes guessing entirely.
+
+The process becomes:
+
+1. **DNS proves origin**  
+2. `/.well-known/stack` **declares the topic + provenance**  
+3. `/sitemap` **defines the subtopic topology**  
+4. **AI grounding syncs the whole identity tree deterministically**
+
+DFH turns **semantic grounding** from **probability → certainty**.
+
+This single shift is why DFH is **inevitable**.
 
 ---
 
-## 0. Overview — The Public Semantic Layer
+## 1. One File, Ten Anchors
 
-The **SLPI** establishes a **public, decentralized, domain-controlled semantic authority**, implemented via the **SFH / DFH protocol**.
-
-Every participating domain exposes a **single stable identity file** at:
+All SLPI / DFH semantics live in a **single JSON-LD document** at:
 
 ```text
 https://<domain>/.well-known/stack
-This file defines:
+SLPI merges:
 
-What the topic is → via five semantic (meaning) anchors
+5 Meaning Anchors → what the topic is
 
-Who controls it & how it’s validated → via five provenance anchors
+5 Provenance Anchors → who defines it + how it’s verified
 
-Together, these form the:
+All ten anchors are declared at the first-hop so AI never has to guess.
 
-Ten-Anchor Deterministic Semantic & Provenance Root
+2. Ten Anchors (Unified Meaning + Provenance)
+2.1 Meaning Anchors — What the topic is
+These five anchors define the semantic identity of the domain.
 
-AI systems, crawlers, and validators treat this file as the first-hop before any:
+/type — What class of thing this domain represents
+What to put here:
 
-heuristic interpretation
+Ontology / taxonomy class
 
-vectorization
+MUST be stable
 
-graph reconciliation
+Prefer Schema.org, Wikidata, or your own dfh: classes
 
-ranking or scoring
+Example:
 
-1. Core Architecture
-SLPI / SFH / DFH is intentionally built on existing, open web primitives:
+jsonc
+Copy code
+"type": {
+  "primary": "schema:Product",
+  "secondary": [
+    "schema:HealthAndBeauty",
+    "dfh:ColloidalSilver"
+  ]
+}
+AI interpretation:
 
-DNS — root ownership & location authority
+“Before anything else, this domain represents a Product.”
 
-HTTPS — transport security & origin authenticity
+/entity — Everything this domain contains, sells, defines, or instantiates
+Put here:
 
-/.well-known/ — standardized, discoverable config location
+SKUs
 
-JSON-LD — machine-native, graph-compatible semantic encoding
+Models
 
-No proprietary APIs. No external dependencies. No ranking systems. No gatekeepers.
+Variants
 
-1.1 Deterministic Entry Behavior
-Under SFH / DFH, a domain becomes a deterministic semantic root:
+Versions
 
-Component	Role
-Root Domain	Owns and defines canonical topic identity; DNS proves origin.
-DFH Descriptor	JSON-LD semantic + provenance file at /.well-known/stack.
-10 Anchors	Minimal deterministic identity + provenance record.
-Mirrors	Optional helper domains; extend context but cannot override the Root.
+Sub-entities
 
-Key property:
+Example:
+
+jsonc
+Copy code
+"entity": [
+  {
+    "id": "sku-16oz",
+    "name": "16oz Colloidal Silver",
+    "ppm": 20
+  },
+  {
+    "id": "sku-32oz",
+    "name": "32oz Colloidal Silver",
+    "ppm": 20
+  }
+]
+AI interpretation:
+
+“These are the official entities belonging to this domain.”
+
+/url — Canonical URL relationships
+Put here:
+
+Homepage
+
+Primary product pages
+
+Canonical alternates
+
+URL rules
+
+Example:
+
+jsonc
+Copy code
+"url": {
+  "home": "https://godsgracecolloidalsilver.com/",
+  "canonicalProducts": [
+    "https://godsgracecolloidalsilver.com/products/16oz",
+    "https://godsgracecolloidalsilver.com/products/32oz"
+  ]
+}
+/sitemap — Topic topology (the “shitmap”)
+This is not a dumb SEO export. It’s the semantic expansion tree.
+
+Put here:
+
+Every subtopic
+
+Hierarchical routing
+
+What each subtopic means
+
+Optional metadata (importance, frequency, etc.)
+
+Good example:
+
+jsonc
+Copy code
+"sitemap": {
+  "roots": [
+    "/products",
+    "/about",
+    "/faq"
+  ],
+  "topics": {
+    "/products": {
+      "type": "schema:ProductCollection"
+    },
+    "/products/16oz": {
+      "entity": "sku-16oz"
+    },
+    "/products/32oz": {
+      "entity": "sku-32oz"
+    }
+  }
+}
+Bad examples to avoid:
+
+❌ Auto-export from Yoast or random SEO plugins
+
+❌ URLs with no meaning labels
+
+❌ Duplicate topics with no clear identity
+
+❌ Empty nodes that point nowhere
+
+/canonical — Identifiers that never change
+Put here:
+
+Names
+
+Aliases
+
+Permanent IDs
+
+Cross-registry references
+
+Example:
+
+jsonc
+Copy code
+"canonical": {
+  "name": "God’s Grace Colloidal Silver",
+  "aliases": [
+    "GGCS",
+    "GodsGraceSilver"
+  ],
+  "persistentId": "ggcs-001"
+}
+2.2 Provenance Anchors — Who defines it + proof chain
+These five anchors define ownership, influence, timing, and integrity.
+
+/authority — Who is the owner of meaning?
+Put here:
+
+Legal owner
+
+Organization
+
+Contact
+
+Role
+
+Optional public key
+
+Example:
+
+jsonc
+Copy code
+"authority": {
+  "owner": "God’s Grace Colloidal Silver LLC",
+  "contact": "mailto:support@godsgracecolloidalsilver.com"
+}
+/source — Upstream data influences
+Put here:
+
+Datasets
+
+Knowledge graphs
+
+Cross references
+
+Domain-specific ontologies
+
+Example:
+
+jsonc
+Copy code
+"source": [
+  "schema.org",
+  "https://godsgracecolloidalsilver.com/lab-reports"
+]
+/timestamp — When each meaning block was declared
+Use RFC3339 timestamps.
+
+Example:
+
+jsonc
+Copy code
+"timestamp": {
+  "created": "2025-01-05T12:22:00Z",
+  "updated": "2025-02-01T09:10:00Z"
+}
+/license — How AI may use this data
+Put here:
+
+License type
+
+License URL
+
+Any explicit usage notes
+
+Example:
+
+jsonc
+Copy code
+"license": {
+  "type": "MIT",
+  "url": "https://opensource.org/licenses/MIT"
+}
+/integrity — Proof that none of this was altered
+Put here:
+
+SHA256 (or stronger) hashes
+
+Optional signatures
+
+Optional audit chains
+
+Example:
+
+jsonc
+Copy code
+"integrity": {
+  "hash": "sha256-a912ffe3b7e...",
+  "signedBy": "authority-owner-key"
+}
+3. Directions for Building the Sitemap
+(The Previously Missing Part)
+DFH relies on the sitemap as the semantic expansion tree.
+
+For DFH, a sitemap:
+
+Is not just a URL list
+
+Is not just for crawlers
+
+Is the hierarchical meaning graph for the domain
+
+3.1 Rules for a Correct DFH Sitemap
+A DFH-compliant sitemap:
+
+✔ MUST describe meaning, not just URLs
+
+✔ MUST reference /type or /entity where possible
+
+✔ MUST reflect your actual content hierarchy
+
+✔ MUST use stable paths
+
+✔ MUST avoid auto-generated SEO trash
+
+3.2 Recommended Sitemap Fields
+Recommended shape:
+
+jsonc
+Copy code
+{
+  "path": "/products/16oz",
+  "entity": "sku-16oz",
+  "importance": 0.9,
+  "updated": "2025-01-11T02:13:00Z"
+}
+Minimum required fields:
+
+path
+
+type OR entity
+
+Optional helpful fields:
+
+importance
+
+priority
+
+slug
+
+description
+
+variants
+
+4. How Grounding Flows Through the Sitemap
+(DFH First-Hop Explained)
+This is the part most systems miss — now written explicitly.
+
+4.1 Grounding Pipeline
+DNS confirms domain → you control the namespace
+
+/.well-known/stack loads → meaning + provenance anchors
+
+/sitemap loads → subtopic topology
+
+AI builds a deterministic semantic graph → zero ambiguity
+
+Knowledge Graph cross-checks → coherence with global truth
+
+Model outputs → safe, deterministic interpretation
+
+4.2 Without DFH
+AI guesses
+
+Embeds
+
+Searches
+
+Collides with conflicting signals
+
+Hallucinates
+
+4.3 With DFH
+AI looks up
+
+Loads
+
+Resolves
+
+Grounds
+
+Outputs
 
 Meaning becomes a lookup, not an inference.
+That is the entire revolution.
 
-The pipeline becomes:
-
-text
-Copy code
-DNS → /.well-known/stack → AI Grounding → Knowledge Graph → Model Output
-2. Ten Anchors (Unified Meaning + Provenance)
-The SLPI merges:
-
-5 Meaning Anchors → semantic identity (what this topic is)
-
-5 Provenance Anchors → authority, licensing, validation (who says so + proof)
-
-All ten anchors are resolved from the deterministic JSON-LD descriptor at:
-
-text
-Copy code
-https://<domain>/.well-known/stack
-2.1 Meaning Anchors (What the topic is)
-These anchors describe the semantic identity of the topic.
-
-Anchor	Purpose
-/type	Ontology / taxonomy class for the topic.
-/entity	Declared instances, SKUs, versions, variants.
-/url	Canonical URLs and origin control.
-/sitemap	Topology of subtopics and routing.
-/canonical	Identifier record: names, aliases, durable IDs.
-
-2.2 Provenance Anchors (Who defines it + proof chain)
-These anchors describe the authority and validation behind the meaning.
-
-Anchor	Purpose
-/authority	Legal / human owner of topic identity.
-/source	Upstream datasets, KGs, contributors, registries.
-/timestamp	RFC3339 creation / update time of declarations.
-/license	Usage permissions for semantic / provenance data.
-/integrity	Hashes, signatures, integrity proofs, audit trails.
-
-Why Ten Anchors?
-
-Because AI requires both:
-
-Deterministic meaning → what the topic is
-
-Deterministic provenance → who says so, and how we know it’s valid
-
-…to eliminate root ambiguity and hallucination.
-
-3. The DFH Descriptor (The File That Defines Everything)
-Every SLPI domain hosts a JSON-LD descriptor at:
-
-text
-Copy code
-https://<domain>/.well-known/stack
-This file:
-
-declares canonical meaning
-
-exposes all 10 anchors
-
-defines mirrors (optional)
-
-serves as the root semantic + provenance authority for that domain
-
-3.1 Minimal Descriptor (with all 10 anchors)
-Example minimal JSON-LD descriptor:
+5. Full Example: /.well-known/stack (Ten-Anchor JSON-LD)
+Below is a complete example for a product-centric domain like
+https://godsgracecolloidalsilver.com:
 
 json
 Copy code
 {
   "@context": {
     "schema": "https://schema.org/",
-    "dfh": "https://example.org/ns/dfh#"
+    "dfh": "https://sfh.dev/ns#"
   },
-  "@id": "https://example.com/.well-known/stack",
-  "@type": "dfh:DeterministicSemanticRoot",
-
-  "dfh:version": "1.0",
-
-  "dfh:anchors": {
-    "type":      "https://example.com/type",
-    "entity":    "https://example.com/entity",
-    "url":       "https://example.com/url",
-    "sitemap":   "https://example.com/sitemap",
-    "canonical": "https://example.com/canonical",
-
-    "authority": "https://example.com/authority",
-    "source":    "https://example.com/source",
-    "timestamp": "https://example.com/timestamp",
-    "license":   "https://example.com/license",
-    "integrity": "https://example.com/integrity"
+  "@id": "https://godsgracecolloidalsilver.com/.well-known/stack",
+  "type": {
+    "primary": "schema:Product",
+    "secondary": [
+      "schema:HealthAndBeauty",
+      "dfh:ColloidalSilver"
+    ]
+  },
+  "canonical": {
+    "name": "God’s Grace Colloidal Silver",
+    "aliases": [
+      "GGCS",
+      "GodsGraceSilver"
+    ],
+    "persistentId": "ggcs-001"
+  },
+  "url": {
+    "home": "https://godsgracecolloidalsilver.com/",
+    "canonicalProducts": [
+      "https://godsgracecolloidalsilver.com/products/16oz",
+      "https://godsgracecolloidalsilver.com/products/32oz"
+    ]
+  },
+  "entity": [
+    {
+      "id": "sku-16oz",
+      "name": "16oz Colloidal Silver",
+      "ppm": 20
+    },
+    {
+      "id": "sku-32oz",
+      "name": "32oz Colloidal Silver",
+      "ppm": 20
+    }
+  ],
+  "sitemap": {
+    "roots": [
+      "/products",
+      "/about",
+      "/faq"
+    ],
+    "topics": {
+      "/products": {
+        "type": "schema:ProductCollection"
+      },
+      "/products/16oz": {
+        "entity": "sku-16oz",
+        "importance": 0.9,
+        "updated": "2025-01-11T02:13:00Z"
+      },
+      "/products/32oz": {
+        "entity": "sku-32oz",
+        "importance": 0.8,
+        "updated": "2025-01-11T02:13:00Z"
+      },
+      "/about": {
+        "type": "schema:AboutPage"
+      },
+      "/faq": {
+        "type": "schema:FAQPage"
+      }
+    }
+  },
+  "authority": {
+    "owner": "God’s Grace Colloidal Silver LLC",
+    "contact": "mailto:support@godsgracecolloidalsilver.com"
+  },
+  "source": [
+    "https://schema.org/",
+    "https://godsgracecolloidalsilver.com/lab-reports"
+  ],
+  "timestamp": {
+    "created": "2025-01-05T12:22:00Z",
+    "updated": "2025-02-01T09:10:00Z"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "integrity": {
+    "hash": "sha256-a912ffe3b7e...",
+    "signedBy": "authority-owner-key"
   }
 }
-Constraint: All 10 anchors MUST resolve to stable, durable endpoints under control of the root domain (or explicitly delegated authorities).
+This is a single file that gives any AI system:
 
-4. DFH → KG → RLHF Arbitration Model
-4.1 The AI Truth Pipeline
-text
-Copy code
-DNS → DFH → KG → RLHF → Model Output
-4.2 Meaning of Layers
-Layer	Role	Authority Level
-DNS	Proves domain control.	Hard physical authority
-DFH	Declares deterministic meaning + provenance.	Strong deterministic authority
-KG	Cross-checks DFH vs global knowledge.	Semantic arbiter
-RLHF	Applies policy, safety, legal constraints.	Veto power
-Output	What the user sees / hears / reads.	Policy-compliant truth
+The class of thing the domain represents (/type)
 
-4.3 Core Rule
-Safety and systemic coherence always override deterministic claims.
+The official entities (/entity)
 
-Interpretation:
+The canonical URLs (/url)
 
-DFH = your intent
+The topic topology (/sitemap)
 
-KG = operational truth (as reconciled with the world)
+The stable identifiers (/canonical)
 
-RLHF / safety = permitted truth (as allowed by policy and law)
+The owner of meaning (/authority)
 
-SLPI / DFH does not bypass safety — it grounds it.
+The upstream influences (/source)
 
-5. AI Grounding & SEO Impact
-5.1 For AI Systems
-With SLPI / SFH / DFH:
+The temporal trace (/timestamp)
 
-No more guessing the topic.
+The usage terms (/license)
 
-No more root ambiguity.
+The integrity proof (/integrity)
 
-No more hallucination at first-hop.
+And it does it deterministically, at the first hop.
 
-Deterministic First-Hop (DFH) becomes the bootstrap step before:
-
-embeddings
-
-retrieval
-
-multi-doc reasoning
-
-KG reconciliation
-
-5.2 For SEO
-SLPI / DFH moves authority up a layer:
-
-Authority shifts from individual pages to the topic definition.
-
-E-E-A-T and related signals can be encoded structurally.
-
-Crawlers begin at a deterministic root via /sitemap (anchored in /stack).
-
-Result:
-
-Search and AI ranking start from canonical meaning, not weak guesses.
-
-6. Implementation Checklist
-To make a domain SLPI / SFH / DFH–ready, do the following:
-
-Create /.well-known/stack JSON-LD file.
-
-Implement the 10 anchors as stable URLs under the domain:
-
-text
-Copy code
-/type
-/entity
-/url
-/sitemap
-/canonical
-/authority
-/source
-/timestamp
-/license
-/integrity
-Ensure all IDs are durable.
-
-Avoid ephemeral IDs and paths that will move or vanish.
-
-Avoid contradictions across anchors.
-
-/type must be consistent with /canonical identifiers.
-
-/authority should align with domain ownership & legal reality.
-
-Optionally add mirrors.
-
-Mirrors may extend context—but cannot override the root domain’s declarations.
-
-7. High-Level Architecture Tree
-Conceptual semantic stack:
-
-text
-Copy code
-Semantic Stack
-└── Root Domain
-    ├── /.well-known/stack        (DFH descriptor)
-    └── Anchors
-        ├── /type                 (ontology / taxonomy)
-        ├── /entity               (instances / variants)
-        ├── /url                  (canonical URLs)
-        ├── /sitemap              (subtopic topology)
-        ├── /canonical            (identifiers / aliases)
-        ├── /authority            (owner / controller)
-        ├── /source               (upstream datasets / KGs)
-        ├── /timestamp            (change history)
-        ├── /license              (usage rights)
-        └── /integrity            (hashes / signatures)
-8. Mirrors
-A mirror is any domain that:
-
-may extend context
-
-may add semantic hints
-
-may mirror or cache DFH data
-
-…but may not override the Root domain’s claims.
-
-8.1 Example Mirror Descriptor
-json
-Copy code
-{
-  "@context": {
-    "dfh": "https://example.org/ns/dfh#"
-  },
-  "@id": "https://mirror.com/.well-known/stack",
-  "@type": "dfh:DeterministicSemanticMirror",
-
-  "dfh:rootAuthority": "https://rootdomain.com/.well-known/stack",
-  "dfh:notes": "This mirror adds derived analytics and extended metadata, but defers final authority to rootdomain.com."
-}
-AI systems must treat dfh:rootAuthority as the source of final truth on identity and provenance.
-
-9. Simple Explanation (Human Version)
-Right now, the internet has:
-
-an official starting point for location → DNS, but
-
-no official starting point for meaning.
-
-So AI has to guess:
-
-“What is this site? What topic does it represent? Who says so?”
-
-Guessing leads to:
-
-ambiguity
-
-inconsistent answers
-
-hallucinations at the root
-
-SLPI / SFH / DFH fixes this permanently:
-
-One file → /\.well-known/stack
-
-Ten anchors → 5 meaning, 5 provenance
-
-Deterministic meaning → the topic is explicitly defined
-
-Deterministic provenance → you know who said it and under what terms
-
-Domain-controlled identity → rooted in DNS and HTTPS
-
-It is the semantic equivalent of DNS:
-
-DNS = “Where is it?”
-
-DFH / SLPI = “What is it — and who says so?”
-
-10. One-Sentence Definition
-The SLPI / SFH / DFH protocol is the official public semantic and provenance layer of the internet — a universal, deterministic first-hop where meaning begins and authority is declared before any AI or search system interprets the web.
+6. What This File Is, in One Sentence
+/.well-known/stack is the public semantic root of a domain —
+one JSON-LD file, ten anchors, zero ambiguity.
