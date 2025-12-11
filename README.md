@@ -3,7 +3,7 @@
 ### Version 1.0 · Ten-Anchor Unified Specification (w/ Full Examples)
 
 > **One file.**  
-> **Ten anchors.**  
+> **Ten anchors.** (99%) only need 1–5 
 > **Zero dependencies.**  
 > **Pure JSON-LD.**  
 > **Deterministic meaning + deterministic provenance.**
