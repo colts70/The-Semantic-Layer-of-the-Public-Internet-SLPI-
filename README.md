@@ -1,293 +1,366 @@
-The Semantic Layer of the Public Internet (SLPI)
+# 🌐 The Semantic Layer of the Public Internet (SLPI)  
+## Semantic First-Hop / Deterministic First-Hop Protocol (SFH / DFH)  
+### Version 1.0 · Ten-Anchor Unified Specification
 
-> **Status:** Public Concept  
-> **Version:** 1.0  
-> **Spec Family:** SFH / DFH (Semantic First-Hop / Deterministic First-Hop)  
-> **License:** MIT  
+> **One file.  
+> Ten anchors.  
+> Zero dependencies.  
+> Pure JSON-LD.  
+> Deterministic meaning + deterministic provenance.**
 
----
+The **Semantic Layer of the Public Internet (SLPI)** defines the **missing semantic substrate of the web**:  
+a **universal, deterministic, machine-native starting point for meaning**.
 
-## 0. Overview
+- **DNS** answers: `Where is it?`  
+- **SLPI / SFH / DFH** answers: `What is it — and who says so?`
 
-The **Public Semantic Layer (PSL)** is the internet’s **deterministic starting point for meaning**.  
+The result is the **first deterministic identity + provenance root** available to:
 
-It provides a **universal, machine-readable anchor** that lets AI systems and search engines resolve canonical definitions **without crawling, ranking, or probabilistic guesswork**.
-
-The **Semantic First-Hop / Deterministic First-Hop (SFH/DFH)** protocol defines a **universal, decentralized index of meaning** that lives between:
-
-- **DNS** → location authority  
-- **Content** → payload  
-
-SFH/DFH turns domains into **root semantic authorities** and gives machines a **deterministic identity record** they can resolve before doing any heuristic interpretation.
+> AI systems · search engines · crawlers · validators · knowledge graphs
 
 ---
 
-## 1. Core Architecture & Deterministic Entry
+## Table of Contents
 
-SFH/DFH is intentionally built on **existing web primitives**:
-
-- DNS
-- HTTPS
-- `/.well-known/` paths
-- JSON-LD
-
-No proprietary dependencies. No closed APIs. No hidden ranking logic.
-
-Under SFH/DFH, a **domain**:
-
-- Becomes the semantic root for its **declared topic**.
-- Publishes a **DFH descriptor** (JSON-LD).
-- Exposes **five anchors** that define the minimal semantic identity record.
-
-### 1.1 Core Components
-
-| Component        | Description                                                                                          |
-|-----------------|------------------------------------------------------------------------------------------------------|
-| Root Domain     | Publishes the canonical semantic definition for a topic. DNS proves origin & ownership.             |
-| DFH Descriptor  | Machine-readable JSON-LD identity record at `https://<domain>/.well-known/stack`.                   |
-| Five Anchors    | Minimal canonical identity record; removes guesswork before embeddings or KG lookups.               |
-| Mirrors         | Optional supporting domains; extend context but cannot override the Root’s meaning.                  |
-
-**Key Property:**  
-Semantic identity becomes a **lookup**, not an inference.
+1. [Overview — The Public Semantic Layer](#0-overview--the-public-semantic-layer)  
+2. [Core Architecture](#1-core-architecture)  
+   - [Deterministic Entry Behavior](#11-deterministic-entry-behavior)  
+3. [Ten Anchors (Unified Meaning + Provenance)](#2-ten-anchors-unified-meaning--provenance)  
+   - [Meaning Anchors (What the topic is)](#21-meaning-anchors-what-the-topic-is)  
+   - [Provenance Anchors (Who defines it + proof chain)](#22-provenance-anchors-who-defines-it--proof-chain)  
+4. [The DFH Descriptor (The File That Defines Everything)](#3-the-dfh-descriptor-the-file-that-defines-everything)  
+   - [Minimal Descriptor (10 anchors)](#31-minimal-descriptor-with-all-10-anchors)  
+5. [DFH → KG → RLHF Arbitration Model](#4-dfh--kg--rlhf-arbitration-model)  
+6. [AI Grounding & SEO Impact](#5-ai-grounding--seo-impact)  
+7. [Implementation Checklist](#6-implementation-checklist)  
+8. [High-Level Architecture Tree](#7-high-level-architecture-tree)  
+9. [Mirrors](#8-mirrors)  
+10. [Simple Explanation (Human Version)](#9-simple-explanation-human-version)  
+11. [One-Sentence Definition](#10-one-sentence-definition)  
 
 ---
 
-## 2. The Five Anchors (Semantic Primitives)
+## 0. Overview — The Public Semantic Layer
 
-Every DFH-compliant domain exposes five logical anchors.  
-These anchors define the **minimal canonical identity record** for a topic.
+The **SLPI** establishes a **public, decentralized, domain-controlled semantic authority**, implemented via the **SFH / DFH protocol**.
 
-They let AI systems deterministically ground meaning **before**:
-
-- embeddings
-- classification
-- KG integration
-- retrieval or ranking
-
-### 2.1 Anchor Table
-
-| Anchor       | Purpose             | Contents                                                              |
-|-------------|---------------------|-----------------------------------------------------------------------|
-| `/type`     | Ontological class   | Category: Product, Person, Company, AI Model, Concept, Topic, etc.    |
-| `/entity`   | Instances           | Declared entities: SKUs, models, versions, variants, child topics.   |
-| `/url`      | Origin control      | Canonical URL, alternate mirrors, ownership/provenance signals.      |
-| `/sitemap`  | Topic topology      | Structured map of subtopics, sections, semantic routing table.       |
-| `/canonical`| Stable identity     | Name, aliases, unique IDs, durable identifiers for the topic.        |
-
-**Goal:**  
-Provide enough **pre-KG structure** that a client never has to “guess” what the topic is.
-
----
-
-## 3. DFH Descriptor
-
-The DFH descriptor lives at:
+Every participating domain exposes a **single stable identity file** at:
 
 ```text
 https://<domain>/.well-known/stack
-It is a JSON-LD document that:
+This file defines:
 
-Declares the topic’s canonical meaning.
+What the topic is → via five semantic (meaning) anchors
 
-Lists the five anchors.
+Who controls it & how it’s validated → via five provenance anchors
 
-Optionally links to mirrors and external graphs.
+Together, these form the:
 
-3.1 Example DFH Descriptor (Minimal)
+Ten-Anchor Deterministic Semantic & Provenance Root
+
+AI systems, crawlers, and validators treat this file as the first-hop before any:
+
+heuristic interpretation
+
+vectorization
+
+graph reconciliation
+
+ranking or scoring
+
+1. Core Architecture
+SLPI / SFH / DFH is intentionally built on existing, open web primitives:
+
+DNS — root ownership & location authority
+
+HTTPS — transport security & origin authenticity
+
+/.well-known/ — standardized, discoverable config location
+
+JSON-LD — machine-native, graph-compatible semantic encoding
+
+No proprietary APIs. No external dependencies. No ranking systems. No gatekeepers.
+
+1.1 Deterministic Entry Behavior
+Under SFH / DFH, a domain becomes a deterministic semantic root:
+
+Component	Role
+Root Domain	Owns and defines canonical topic identity; DNS proves origin.
+DFH Descriptor	JSON-LD semantic + provenance file at /.well-known/stack.
+10 Anchors	Minimal deterministic identity + provenance record.
+Mirrors	Optional helper domains; extend context but cannot override the Root.
+
+Key property:
+
+Meaning becomes a lookup, not an inference.
+
+The pipeline becomes:
+
+text
+Copy code
+DNS → /.well-known/stack → AI Grounding → Knowledge Graph → Model Output
+2. Ten Anchors (Unified Meaning + Provenance)
+The SLPI merges:
+
+5 Meaning Anchors → semantic identity (what this topic is)
+
+5 Provenance Anchors → authority, licensing, validation (who says so + proof)
+
+All ten anchors are resolved from the deterministic JSON-LD descriptor at:
+
+text
+Copy code
+https://<domain>/.well-known/stack
+2.1 Meaning Anchors (What the topic is)
+These anchors describe the semantic identity of the topic.
+
+Anchor	Purpose
+/type	Ontology / taxonomy class for the topic.
+/entity	Declared instances, SKUs, versions, variants.
+/url	Canonical URLs and origin control.
+/sitemap	Topology of subtopics and routing.
+/canonical	Identifier record: names, aliases, durable IDs.
+
+2.2 Provenance Anchors (Who defines it + proof chain)
+These anchors describe the authority and validation behind the meaning.
+
+Anchor	Purpose
+/authority	Legal / human owner of topic identity.
+/source	Upstream datasets, KGs, contributors, registries.
+/timestamp	RFC3339 creation / update time of declarations.
+/license	Usage permissions for semantic / provenance data.
+/integrity	Hashes, signatures, integrity proofs, audit trails.
+
+Why Ten Anchors?
+
+Because AI requires both:
+
+Deterministic meaning → what the topic is
+
+Deterministic provenance → who says so, and how we know it’s valid
+
+…to eliminate root ambiguity and hallucination.
+
+3. The DFH Descriptor (The File That Defines Everything)
+Every SLPI domain hosts a JSON-LD descriptor at:
+
+text
+Copy code
+https://<domain>/.well-known/stack
+This file:
+
+declares canonical meaning
+
+exposes all 10 anchors
+
+defines mirrors (optional)
+
+serves as the root semantic + provenance authority for that domain
+
+3.1 Minimal Descriptor (with all 10 anchors)
+Example minimal JSON-LD descriptor:
+
 json
 Copy code
 {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Example Topic",
-  "url": "https://example.com",
-  "dfhVersion": "1.0",
-  "dfhAnchors": {
-    "type": "https://example.com/type",
-    "entity": "https://example.com/entity",
-    "url": "https://example.com/url",
-    "sitemap": "https://example.com/sitemap",
-    "canonical": "https://example.com/canonical"
+  "@context": {
+    "schema": "https://schema.org/",
+    "dfh": "https://example.org/ns/dfh#"
   },
-  "dfhMirrors": [
-    "https://mirror1.example.org",
-    "https://mirror2.example.net"
-  ]
+  "@id": "https://example.com/.well-known/stack",
+  "@type": "dfh:DeterministicSemanticRoot",
+
+  "dfh:version": "1.0",
+
+  "dfh:anchors": {
+    "type":      "https://example.com/type",
+    "entity":    "https://example.com/entity",
+    "url":       "https://example.com/url",
+    "sitemap":   "https://example.com/sitemap",
+    "canonical": "https://example.com/canonical",
+
+    "authority": "https://example.com/authority",
+    "source":    "https://example.com/source",
+    "timestamp": "https://example.com/timestamp",
+    "license":   "https://example.com/license",
+    "integrity": "https://example.com/integrity"
+  }
 }
-4. DFH → KG Arbitration Model (AI Truth Pipeline)
-SFH/DFH is designed to plug directly into modern AI architectures that must balance:
+Constraint: All 10 anchors MUST resolve to stable, durable endpoints under control of the root domain (or explicitly delegated authorities).
 
-deterministic declarations (DFH)
-
-global coherence (KG)
-
-safety & policy (RLHF, filters)
-
-4.1 Authority Pipeline
+4. DFH → KG → RLHF Arbitration Model
+4.1 The AI Truth Pipeline
 text
 Copy code
 DNS → DFH → KG → RLHF → Model Output
-DFH → Vector Creation → KG Reconciliation → RLHF → Output
-4.2 Roles & Epistemic Authority
-Layer	Role	Authority Class
-DNS	Proves physical origin & control of the domain.	Highest physical authority
-DFH	Declares canonical topic meaning & structure.	Strong deterministic input
-KG	Validates, cross-checks, reconciles DFH + world.	Final semantic arbiter
-RLHF	Applies safety, legal, policy rules.	Veto power
-Output	What the user actually sees.	Policy-compliant truth
+4.2 Meaning of Layers
+Layer	Role	Authority Level
+DNS	Proves domain control.	Hard physical authority
+DFH	Declares deterministic meaning + provenance.	Strong deterministic authority
+KG	Cross-checks DFH vs global knowledge.	Semantic arbiter
+RLHF	Applies policy, safety, legal constraints.	Veto power
+Output	What the user sees / hears / reads.	Policy-compliant truth
 
-4.3 Critical Rule
+4.3 Core Rule
 Safety and systemic coherence always override deterministic claims.
 
-Implications:
+Interpretation:
 
-DFH is privileged but not absolute.
+DFH = your intent
 
-The Knowledge Graph (KG) decides whether DFH is:
+KG = operational truth (as reconciled with the world)
 
-accepted
+RLHF / safety = permitted truth (as allowed by policy and law)
 
-modified
-
-rejected
-
-RLHF / safety can override even accurate DFH truth if it violates:
-
-safety policies
-
-legal constraints
-
-platform rules
-
-Mental model:
-
-DFH → Deterministic intent
-
-KG → Operational truth
-
-RLHF → Permitted truth
+SLPI / DFH does not bypass safety — it grounds it.
 
 5. AI Grounding & SEO Impact
-SFH/DFH operates at the concept / topic level, not the individual page level.
+5.1 For AI Systems
+With SLPI / SFH / DFH:
 
-This changes how:
+No more guessing the topic.
 
-AI systems ground meaning.
+No more root ambiguity.
 
-search engines compute authority.
+No more hallucination at first-hop.
 
-crawlers and agents explore a domain.
+Deterministic First-Hop (DFH) becomes the bootstrap step before:
 
-5.1 AI Grounding Benefits
-Instant Disambiguation
-The topic’s identity is declared explicitly in DFH, not inferred from content.
+embeddings
 
-Elimination of Root Hallucination
-The model doesn’t have to guess “what this site is about” — DFH defines it.
+retrieval
 
-Deterministic Bootstrap
-First step becomes a lookup against DFH, not a fuzzy heuristic crawl.
+multi-doc reasoning
 
-5.2 SEO Advantages
-Topic-Level Authority
-Authority shifts upstream from individual pages to the canonical semantic definition.
+KG reconciliation
 
-Hardwired E-E-A-T
-Expertise, experience, authority, and trust can be encoded in:
+5.2 For SEO
+SLPI / DFH moves authority up a layer:
 
-/canonical
+Authority shifts from individual pages to the topic definition.
 
-/entity
+E-E-A-T and related signals can be encoded structurally.
 
+Crawlers begin at a deterministic root via /sitemap (anchored in /stack).
+
+Result:
+
+Search and AI ranking start from canonical meaning, not weak guesses.
+
+6. Implementation Checklist
+To make a domain SLPI / SFH / DFH–ready, do the following:
+
+Create /.well-known/stack JSON-LD file.
+
+Implement the 10 anchors as stable URLs under the domain:
+
+text
+Copy code
 /type
-and consumed structurally by AI/KG systems.
-
-Clean Deterministic Crawl Surface
-Indexers can:
-
-start from the DFH descriptor and /sitemap
-
-avoid expensive exploratory crawling
-
-immediately locate the “semantic spine” of the topic
-
-6. Minimal Implementation Checklist
-To make a domain SFH/DFH-ready:
-
-Publish DFH descriptor
-
-Create /.well-known/stack as a JSON-LD document.
-
-Declare:
-
-topic name
-
-canonical URL
-
-five anchor URLs
-
-Expose the five anchors
-
-Implement endpoints (static or dynamic) for:
-
-/type
-
 /entity
-
 /url
-
 /sitemap
-
 /canonical
+/authority
+/source
+/timestamp
+/license
+/integrity
+Ensure all IDs are durable.
 
-Use stable identifiers
+Avoid ephemeral IDs and paths that will move or vanish.
 
-Keep anchor locations stable.
+Avoid contradictions across anchors.
 
-Use durable IDs in /canonical and /entity.
+/type must be consistent with /canonical identifiers.
 
-Document mirrors (optional)
+/authority should align with domain ownership & legal reality.
 
-Use dfhMirrors to list supporting or regional domains.
+Optionally add mirrors.
 
-Never let mirrors contradict the Root’s canonical definition.
+Mirrors may extend context—but cannot override the root domain’s declarations.
 
-7. Design Goals
-Deterministic First-Hop
-Replace “crawl & guess” with “resolve & ground.”
+7. High-Level Architecture Tree
+Conceptual semantic stack:
 
-Decentralized Control
-Every domain can declare its own canonical meaning without a gatekeeper.
+text
+Copy code
+Semantic Stack
+└── Root Domain
+    ├── /.well-known/stack        (DFH descriptor)
+    └── Anchors
+        ├── /type                 (ontology / taxonomy)
+        ├── /entity               (instances / variants)
+        ├── /url                  (canonical URLs)
+        ├── /sitemap              (subtopic topology)
+        ├── /canonical            (identifiers / aliases)
+        ├── /authority            (owner / controller)
+        ├── /source               (upstream datasets / KGs)
+        ├── /timestamp            (change history)
+        ├── /license              (usage rights)
+        └── /integrity            (hashes / signatures)
+8. Mirrors
+A mirror is any domain that:
 
-Compatibility
-Uses only:
+may extend context
 
-DNS
+may add semantic hints
 
-HTTPS
+may mirror or cache DFH data
 
-/.well-known/
+…but may not override the Root domain’s claims.
 
-JSON-LD
+8.1 Example Mirror Descriptor
+json
+Copy code
+{
+  "@context": {
+    "dfh": "https://example.org/ns/dfh#"
+  },
+  "@id": "https://mirror.com/.well-known/stack",
+  "@type": "dfh:DeterministicSemanticMirror",
 
-AI-Native
-Mirrors how LLMs and KGs already canonicalize internally, but makes the process public and inspectable.
+  "dfh:rootAuthority": "https://rootdomain.com/.well-known/stack",
+  "dfh:notes": "This mirror adds derived analytics and extended metadata, but defers final authority to rootdomain.com."
+}
+AI systems must treat dfh:rootAuthority as the source of final truth on identity and provenance.
 
-8. Summary
-The Semantic Layer of the Public Internet (SLPI), implemented through the SFH/DFH protocol, is:
+9. Simple Explanation (Human Version)
+Right now, the internet has:
 
-a public, deterministic index of meaning
+an official starting point for location → DNS, but
 
-a missing semantic layer between DNS and payload
+no official starting point for meaning.
 
-a new root primitive for:
+So AI has to guess:
 
-AI grounding
+“What is this site? What topic does it represent? Who says so?”
 
-SEO
+Guessing leads to:
 
-structured indexing
+ambiguity
 
-It doesn’t replace search, KGs, or safety systems.
-It gives them a clean, deterministic first-hop so they don’t have to guess what the internet means.
+inconsistent answers
+
+hallucinations at the root
+
+SLPI / SFH / DFH fixes this permanently:
+
+One file → /\.well-known/stack
+
+Ten anchors → 5 meaning, 5 provenance
+
+Deterministic meaning → the topic is explicitly defined
+
+Deterministic provenance → you know who said it and under what terms
+
+Domain-controlled identity → rooted in DNS and HTTPS
+
+It is the semantic equivalent of DNS:
+
+DNS = “Where is it?”
+
+DFH / SLPI = “What is it — and who says so?”
+
+10. One-Sentence Definition
+The SLPI / SFH / DFH protocol is the official public semantic and provenance layer of the internet — a universal, deterministic first-hop where meaning begins and authority is declared before any AI or search system interprets the web.
