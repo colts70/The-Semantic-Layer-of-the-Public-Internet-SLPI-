@@ -464,3 +464,110 @@ Zero ambiguity at the first hop
 
 If DNS is “Where is it?”,
 then DFH / SLPI at /.well-known/stack is “What is it — and who says so?”
+
+🌐 DFH / SLPI: Optional 10-Anchor Extension for High-Trust Domains
+Why Most Companies Only Need 5 Anchors — And Why Some Need All 10
+
+DFH / SLPI is designed around a minimal, deterministic core that any domain can deploy in under a minute.
+This core is the 5-Anchor Meaning Layer, which communicates the what, who, and where of a domain in a machine-verifiable way.
+
+But for high-trust industries — research, journalism, finance, government, legal, scientific publishing — meaning alone is not enough.
+
+They also need provenance.
+
+This post explains the optional 10-Anchor Extension, why it exists, and who should use it.
+
+✅ The 5-Anchor Meaning Layer (Default, Recommended for 99% of Domains)
+
+These anchors define the deterministic identity of your domain:
+
+Anchor	Purpose
+/type	What kind of thing this domain represents
+/entity	The entity’s unique identity
+/url	The domain’s authoritative location
+/canonical	The canonical name / label / ID
+/sitemap	The surface area the domain exposes
+
+This layer is:
+
+minimal
+
+universal
+
+backward-compatible
+
+enough for all AI systems to lock onto meaning deterministically
+
+For most companies, this is all that is required for full DFH compliance.
+
+Deploy it → and your domain becomes AI-readable, indexable, and meaning-stable.
+
+🔐 The Optional 10-Anchor Extension (For Heavy Hitters Only)
+The Provenance Layer: “Why Trust It?”
+
+Some domains must provide more than meaning.
+They must provide verifiable provenance — the origin, lineage, and trust properties of what they publish.
+
+For those cases, DFH offers the optional† provenance anchors:
+
+Anchor	Purpose
+/source	Who asserted the identity or claim
+/derivation	What the content was derived from
+/history	How it changed over time
+/license	Legal permissions for use
+/integrity	Checksums / signatures for tamper-proofing
+
+These anchors are recommended for:
+
+scientific institutions
+
+academic research domains
+
+financial or regulatory bodies
+
+news and journalism outlets
+
+legal or compliance-critical systems
+
+archival, preservation, and distributed-trust networks
+
+These organizations rely on traceability, auditability, and chain-of-custody guarantees — which standard 5-anchor identity cannot provide.
+
+🧩 Layered by Design: Minimal Core, Optional Trust Expansion
+
+DFH’s architecture deliberately follows a layered protocol approach:
+
+Layer 1 = Meaning (Anchors 1–5)
+
+Mandatory
+
+Minimal
+
+Zero dependencies
+
+Layer 2 = Provenance (Anchors 6–10)
+
+Optional
+
+High-trust domains only
+
+Adds cryptographic and lineage semantics
+
+This keeps DFH:
+
+simple for everyday use
+
+industrial-strength for organizations that need it
+
+future-proof for AI grounding and regulatory frameworks
+
+🏁 Summary
+
+If you run a typical business or website → deploy Anchors 1–5.
+
+If you publish knowledge that must be trusted, verified, or regulated → extend to Anchors 6–10.
+
+One protocol. Two layers. Universal adoption, optional provenance.
+
+This is the cleanest and most scalable model:
+maximum simplicity for the web, maximum trust for the institutions that require it.
