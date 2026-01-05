@@ -3,7 +3,7 @@
  Hierarchical Expressed Semantic Stack (HESS)
 A deterministic, installable semantic first-hop for the web a 7 Layer Semantic Protocol.— built for AI.
 
-Domains MAY include an X-HESS-Stack HTTP response header pointing to the stack root. Agents SHOULD treat this as a discovery hint only and MUST verify the referenced stack resource directly. Absence of the header MUST NOT be interpreted as absence of DFH support.
+Domains MAY include an X-HESS-Stack HTTP response header pointing to the stack root. X-HESS-Stack: https://example.com/.well-known/stack Agents SHOULD treat this as a discovery hint only and MUST verify the referenced stack resource directly. Absence of the header MUST NOT be interpreted as absence of DFH support.
 
 HESS does not replace current AI techniques like RAG (Retrieval-Augmented Generation); it grounds them. Without HESS, AI enters a domain in a "semantic fog." With HESS, the AI has a clear, domain-owner-authorized map of intent.
 
