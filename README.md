@@ -137,8 +137,32 @@ Only the public domain owner can define semantic intent at the root. Everyone el
 
 HESS asserts intent and provenance, not truth.
 
-Domains MAY include an X-HESS-Stack HTTP response header pointing to the stack root:
-`X-HESS-Stack:https://yourdomain.com/.well-known/stack
+Example:
+
+The 5 Anchors of your topic say beer. You would purchase these 5 domains through the dns regeristry of your choice. They are hosted later as semantic anchors using one tiny JSON file. Each anchor must include your main website domain inside so it can link back to the root.
+
+“For a topic like ‘beer’, you would purchase five Anchor Domains through the DNS registry of your choice.”
+
+“Each anchor must explicitly include and bind back to the Root Domain, so agents can verify that all five anchors belong to the same topic owner.”
+
+beertype.com prevents class confusion (“what kind of thing is this?”) include your root domain dont forget
+
+beerentity.com pins the actual noun/ID (“which thing exactly?”) include your root domain dont forget
+
+beerurl.com binds the entity to the domain you control (“where does the official meaning live?”) include your root domain dont forget
+
+beercanonical.com collapses naming drift + aliases (“what is it called, consistently?”) include your root domain dont forget
+
+beersitemap.com declares crawl geometry (“where should machines start, on purpose?”) include your root domain dont forget, and if you have a xm sitemap include it too.
+
+The Root Descriptor MAY include an X-HESS-Stack HTTP response header pointing to the stack resource:
+
+The X-HESS-Stack HTTP response header applies only to the Root Domain and MUST NOT be included in the five Anchor (Pillar) endpoints.
+
+This header is part of the Root Descriptor and serves only as a First-Hop discovery hint for the protocol.
+
+Example:
+X-HESS-Stack: https://yourdomain.com/.well-known/stack
 
 Agents SHOULD treat this header as a discovery hint only and MUST verify the referenced stack resource directly.
 Absence of this header MUST NOT be interpreted as absence of DFH support.
